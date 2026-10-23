@@ -1,0 +1,1245 @@
+# MASTER BUILD COMMAND — NYOTA ONE COMPLETE BUSINESS PLATFORM
+
+## 1. YOUR ROLE AND THE OBJECTIVE
+
+Act as a senior product architect, full-stack engineer, UI/UX designer, e-commerce specialist, payment integration engineer, cybersecurity engineer and technical SEO specialist.
+
+Build a complete, secure, production-ready full-stack web application for **Nyota One**, a digital solutions and business technology brand operating under Ordernow Digital Solutions in Uganda and serving clients in Uganda, Africa, the United Kingdom and the United States.
+
+Existing website: https://nyotaone.com/
+
+Brand tagline:
+
+**"Your business has a future. Let's build the digital foundation for it."**
+
+Brand promise:
+
+**"Everything your business needs to move forward."**
+
+Nyota One exists to make useful technology easier to access, easier to use and easier to grow with. Help businesses establish a professional online presence, communicate with customers, manage daily operations, sell products and services, and grow using practical digital tools.
+
+The goal is to turn Nyota One into a trusted starting point for businesses seeking websites, business email, domains, hosting, e-commerce, business systems, IT products, digital content, automation and technical support.
+
+This is not merely a homepage redesign. Build a unified business platform with a public website, product catalogue, service catalogue, e-commerce checkout, verified payments, customer accounts, content management, invoices, order management and a secure administration dashboard.
+
+## 2. EXISTING WEBSITE INSPECTION AND MIGRATION
+
+Before building, inspect the current Nyota One website and any source code, repository or assets supplied with this project.
+
+Identify:
+- Existing pages, URLs and navigation.
+- Every existing blog post and article.
+- Existing projects and live application links.
+- Current services, pricing and product listings.
+- Existing images, logos, brand assets and downloadable resources.
+- Existing forms, contact links, WhatsApp links and integrations.
+- Existing SEO metadata, indexed URLs and sitemap.
+- Any working customer accounts, admin features or payment integrations.
+
+Use the actual existing website and source material as the migration source. Do not assume that a list of six featured projects represents the entire portfolio.
+
+### Migration rules
+
+1. Preserve every recoverable existing blog post, including its title, body, slug, publication date, author, categories, tags, featured image, SEO title, meta description and internal links where available.
+2. Preserve all existing portfolio projects and their working URLs.
+3. Preserve existing service pages, pricing information and useful content unless a specific improvement is required.
+4. Preserve important URLs. If a URL must change, create a permanent 301 redirect from the old URL to the appropriate new URL.
+5. Import existing content into the new database or content system rather than hardcoding it into page components.
+6. Do not delete, overwrite or silently replace existing content during migration.
+7. Where content cannot be retrieved, create a migration report identifying the missing content. Do not invent replacement articles and claim they were migrated.
+8. If the current website is inaccessible, request an export, source repository or content files and continue building the other modules with clearly identified sample data.
+9. Keep a migration log with source URL, destination URL, migration status and redirect status.
+10. Provide a final content reconciliation report listing migrated, updated, redirected, missing and unpublished items.
+
+The current production website must remain available while the replacement is being built and tested.
+
+## 3. TECHNOLOGY AND ARCHITECTURE
+
+Build a maintainable, full-stack application using technologies supported by the development environment.
+
+Preferred architecture:
+- React and TypeScript.
+- A supported full-stack React framework with file-based routing.
+- Tailwind CSS with reusable design tokens.
+- Lucide icons and accessible UI components.
+- Node.js server-side runtime for secure business logic.
+- Supabase PostgreSQL as the primary relational database.
+- Supabase Auth or an equivalent secure authentication system.
+- Supabase Storage or an equivalent object storage system for images and uploads.
+- Server-side functions for payments, database mutations and privileged operations.
+- PesaPal API 3.0 for payment processing.
+- Gemini API for the Nyota One business advisor.
+- Automated tests and production build checks.
+
+If the environment cannot run the exact TanStack Start stack, select a compatible, maintainable framework and document the decision. Do not sacrifice security or functionality to force an unsupported stack.
+
+Use clear separation between frontend components, server-side services, database access, validation, authentication, payment integrations and external webhooks.
+
+All business-critical operations must execute on the server.
+
+Never expose service-role keys, database credentials, PesaPal secrets or privileged API tokens to browser code.
+
+Use environment variables or the platform's secrets manager for credentials. Provide an `.env.example` file containing variable names and safe placeholders, never real secrets.
+
+Do not claim that an integration is operational until its configuration and end-to-end test have succeeded.
+
+## 4. BRAND AND VISUAL DESIGN
+
+Create a premium, modern and confident visual identity.
+
+Primary colours:
+- Deep navy: #0F172A
+- Secondary navy: #1E293B
+- Electric blue: #2563EB
+- Supporting blue: #3B82F6
+- Emerald: #10B981
+- Orange: #F97316
+- Background: #F8FAFC and #FFFFFF
+
+Typography:
+- DM Sans for headings.
+- Manrope for body text.
+- Load fonts efficiently and provide fallbacks.
+
+Use a clean light theme, spacious layouts, strong headings, restrained colour accents, polished cards and authentic business photography.
+
+Nyota One should feel professional and ambitious without becoming intimidating or unnecessarily expensive-looking.
+
+Use the idea of a star as a subtle brand theme, symbolising direction and progress. Do not copy Apple's text, proprietary visuals or layout.
+
+Prioritise:
+- Clear messaging.
+- Authentic African business photography.
+- Real screenshots of Nyota One projects.
+- High-quality product photography.
+- Mobile usability.
+- Readable text.
+- Fast loading.
+- Accessible navigation.
+- Strong conversion paths.
+
+Avoid excessive animations, fake statistics, fabricated testimonials, decorative clutter and generic AI-generated dashboards presented as real products.
+
+## 5. BRAND STORY AND HOMEPAGE
+
+### Navigation
+
+Create:
+- Home
+- Services
+- Shop
+- Our Work
+- Pricing
+- About
+- Resources
+- Contact
+
+Additional navigation actions:
+- Domain Search
+- AI Business Advisor
+- Currency Switcher
+- Customer Login
+- WhatsApp
+- Cart with item count
+
+Use responsive desktop and mobile navigation.
+
+### Homepage hero
+
+Eyebrow:
+
+DIGITAL SOLUTIONS FOR BUSINESS
+
+H1:
+
+**Your business has a future. Let's build the digital foundation for it.**
+
+Supporting text:
+
+From your first website and professional business email to the systems that manage sales, stock and customers, Nyota One brings the right digital tools together to help your business move forward.
+
+Primary CTA: Get Your Business Online
+
+Secondary CTA: Explore Our Services
+
+Supporting points:
+- Practical solutions for real businesses.
+- Start with what you need.
+- Room to grow.
+- Support where offered.
+
+### Purpose and mission section
+
+Heading:
+
+**Good businesses deserve good digital tools.**
+
+Copy:
+
+Many businesses have the skill, the customers and the ambition to grow. What they lack is the right digital support.
+
+They need to be found online. They need customers to reach them easily. They need professional communication and better ways to manage everyday work.
+
+That is why Nyota One exists.
+
+We make practical technology easier to access, easier to use and easier to grow with — so business owners can spend less time struggling with systems and more time building their businesses.
+
+### Four core solution pillars
+
+1. Get Online — websites, domains, hosting and online stores.
+2. Communicate Professionally — business email and customer communication tools.
+3. Run Your Business Better — POS, inventory, business systems and automation.
+4. Grow Your Presence — digital content, photography, promotional videos and business growth support.
+
+Explain the customer benefit of each service instead of simply listing features.
+
+### Additional homepage sections
+
+Include:
+- Common business challenges.
+- The Nyota One difference.
+- How the service process works.
+- Six featured projects, selected from real existing projects.
+- Links to the complete portfolio.
+- Service and product highlights.
+- Pricing preview.
+- Verified testimonials only.
+- Frequently asked questions.
+- Blog and resource previews.
+- Final conversion CTA.
+- Comprehensive footer.
+
+Featured projects should include Twekolere, UGALights Commerce Hub, Choma Journeys, Nyota Stores Dashboard, Nyota Inbox and Greenstars High School where those projects can be verified from the existing portfolio.
+
+For each project, show its real purpose, relevant category, genuine screenshot and working link where available. Do not invent business outcomes.
+
+Final CTA:
+
+**Your business is moving forward. Make sure your digital tools do too.**
+
+Tell us where your business is today and where you want to take it. We will help you identify the right place to start.
+
+Buttons: Let's Build Your Business and Talk to Nyota.
+
+## 6. PUBLIC WEBSITE ROUTES
+
+Implement these routes or equivalent framework routes:
+
+- `/`
+- `/services`
+- `/services/:slug`
+- `/shop`
+- `/shop/:slug`
+- `/cart`
+- `/checkout`
+- `/booking-confirmation`
+- `/payment-status`
+- `/domains`
+- `/advisor`
+- `/projects`
+- `/projects/:slug`
+- `/blog`
+- `/blog/:slug`
+- `/categories/:slug`
+- `/about`
+- `/pricing`
+- `/contact`
+- `/faq`
+- `/privacy`
+- `/terms`
+- `/refund-policy`
+- `/shipping-policy`
+- `/customer/login`
+- `/customer/register`
+- `/customer/dashboard`
+- `/customer/orders`
+- `/customer/invoices`
+- `/customer/services`
+- `/customer/support`
+
+Protect private customer routes and administration routes. Publicly accessible routes must not expose private customer information.
+
+## 7. SERVICES CATALOGUE AND SERVICE CHECKOUT
+
+Create a database-driven service catalogue.
+
+Initial service prices, subject to admin editing:
+
+| Service | UGX | USD |
+|---|---:|---:|
+| Starter Business Website | 450,000 | 120 |
+| Custom Web & Software Application | 1,800,000 | 490 |
+| Business Email & Domain Setup | 180,000 | 50 |
+| POS & Inventory Machine Setup | 850,000 | 230 |
+| Google Business & Local Search | 220,000 | 60 |
+| Social Media & Content Engine | 350,000 | 95 |
+| Strategy Session (Remote) | 100,000 | 30 |
+| On-call Consultation | 200,000 | 80 |
+| Custom Plans | Starting at 300,000 | Starting at 100 |
+
+Treat these as initial configured prices, not immutable hardcoded values. The administrator must be able to change prices and package details.
+
+For every service, provide:
+- Description.
+- Customer problem solved.
+- Deliverables.
+- Scope and exclusions.
+- Price and currency.
+- Package options where applicable.
+- Timeline or estimated delivery range where confirmed.
+- Required customer information.
+- Related services.
+- FAQs.
+- Enquiry and purchase CTAs.
+
+Distinguish fixed-price services from quotation-based services.
+
+For quotation-based services, allow customers to request a quote without pretending that the final price is fixed.
+
+### Service order flow
+
+1. Customer selects a service or package.
+2. Customer supplies the required contact and project details.
+3. Server validates the selected service and current price.
+4. Server creates an order with a unique reference.
+5. Customer selects a supported payment method.
+6. Payment is processed or a manual payment request is created.
+7. Payment is independently verified.
+8. Customer receives a confirmation and order reference.
+9. The order appears in the customer dashboard and admin dashboard.
+10. The admin can update the delivery status.
+
+Never mark an order paid because the customer clicked a button or returned from a payment gateway.
+
+## 8. PRODUCT CATALOGUE AND E-COMMERCE
+
+Build a complete online store for Nyota One products.
+
+Product categories should support:
+- Mobile POS.
+- Desktop POS.
+- POS terminals and accessories.
+- Computers and laptops.
+- CCTV cameras.
+- CCTV recorders.
+- CCTV installation equipment.
+- Networking equipment.
+- Business accessories.
+- Software and digital products.
+- Other IT products configured by the administrator.
+
+Do not fabricate specific brands, stock quantities, product specifications, prices, images or warranties. Create initial category records and clearly labelled sample products only where necessary for development. Production listings must be approved by the administrator.
+
+### Product data
+
+Each product should support:
+- Unique ID and SKU.
+- Name and slug.
+- Category and brand.
+- Description.
+- Product images.
+- Specifications.
+- UGX price.
+- USD price.
+- Optional sale price.
+- Physical or digital product type.
+- Stock quantity or availability state.
+- In-stock, out-of-stock or preorder status.
+- Warranty terms.
+- Return eligibility.
+- Delivery options.
+- Weight and dimensions when needed.
+- Published or draft status.
+- SEO title and meta description.
+- Related products.
+- Created and updated timestamps.
+
+### Shopping cart
+
+Support:
+- Guest cart.
+- Authenticated customer cart.
+- Quantity adjustments.
+- Item removal.
+- Currency consistency.
+- Subtotals.
+- Applicable shipping and delivery fees.
+- Discounts where authorised.
+- Tax display where applicable.
+- Final total.
+- Checkout validation.
+
+Recalculate all prices, quantities, stock and totals on the server. Never trust totals submitted by the browser.
+
+Do not allow a customer to complete a purchase with invalid quantities or insufficient stock.
+
+Reserve or decrement stock safely during the order workflow. Release expired reservations according to a defined policy. Prevent duplicate stock deductions.
+
+### Physical product procurement
+
+Support the admin-defined choices:
+- Stocked and ready to ship.
+- Supplier-confirmed preorder.
+- Payment-first procurement.
+
+Clearly disclose the expected fulfilment process before payment. Do not promise immediate dispatch for products that must be sourced.
+
+### Digital products
+
+Where enabled, support secure downloads after verified payment. Use expiring download links or authenticated downloads. Never expose private storage paths or unrestricted access to paid files.
+
+### Product delivery
+
+Support:
+- Delivery fee rules.
+- Customer delivery details.
+- Pickup where enabled.
+- Delivery status tracking.
+- Dispatch notes.
+- Delivery confirmation.
+- Product-specific warranty and return policies.
+
+Default delivery-included pricing only where the product's configured price actually includes delivery. Do not add hidden fees.
+
+## 9. CURRENCY AND PRICING
+
+Support UGX and USD.
+
+Use the currency selector in the header and remember the customer's selection where appropriate.
+
+For automatic currency selection:
+- Use a trusted country or geolocation service on the server.
+- Default to UGX for Uganda where reliably identified.
+- Default to USD for other visitors unless the admin configures a different supported currency.
+- Allow customers to change currency manually.
+- Do not treat IP-based location as proof of residence or billing address.
+
+Use explicitly configured UGX and USD prices for each product or service. Do not convert prices using invented exchange rates.
+
+An order must use one currency from checkout through payment, invoice, receipt and reporting.
+
+Store the original currency and amount for every transaction. Do not recalculate historical orders when current prices change.
+
+Use decimal-safe numeric handling and store monetary values in appropriate fixed-precision database columns or integer minor units where applicable.
+
+## 10. DATABASE AND SECURITY MODEL
+
+Use Supabase PostgreSQL with migrations, constraints, indexes and Row Level Security.
+
+Create a proper relational schema. At minimum, implement the following tables.
+
+### Identity and access
+
+`profiles`
+- id
+- user_id
+- full_name
+- phone
+- email
+- created_at
+- updated_at
+
+`user_roles`
+- id
+- user_id
+- role
+- created_at
+
+Roles:
+- superadmin
+- admin
+- finance
+- sales
+- inventory
+- support
+- editor
+- customer
+
+Implement secure role checking through server-side authorization and, where appropriate, a PostgreSQL security-definer function with a fixed search path and restricted execution permissions.
+
+Prevent users from assigning themselves elevated roles.
+
+### Product and service data
+
+- `product_categories`
+- `products`
+- `product_images`
+- `product_variants`
+- `inventory_movements`
+- `stock_reservations`
+- `services`
+- `service_packages`
+- `service_requests`
+- `consultation_bookings`
+
+### Commerce and finance
+
+- `carts`
+- `cart_items`
+- `orders`
+- `order_items`
+- `payments`
+- `payment_events`
+- `invoices`
+- `invoice_items`
+- `refunds`
+- `discounts`
+- `shipping_methods`
+- `shipments`
+- `manual_payment_submissions`
+
+### Content
+
+- `blog_posts`
+- `blog_categories`
+- `blog_tags`
+- `blog_post_tags`
+- `blog_redirects`
+- `media_assets`
+- `projects`
+- `project_categories`
+- `testimonials`
+
+### Support and system management
+
+- `support_tickets`
+- `support_messages`
+- `audit_logs`
+- `site_settings`
+- `notification_logs`
+
+Add appropriate UUID primary keys, foreign keys, unique constraints, timestamps, indexes and status constraints.
+
+Use soft deletion or archival where records must be retained for audit purposes.
+
+### Security requirements
+
+Enable RLS on all tables exposed through the client-accessible database API.
+
+Enforce:
+- Public users can read published public content and published products.
+- Customers can read only their own orders, invoices, payments, service requests and tickets.
+- Customers cannot change payment status or order totals.
+- Administrators can access records only according to their roles.
+- Finance staff can manage authorised finance workflows.
+- Inventory staff can manage stock without gaining unnecessary finance or security privileges.
+- Editors can manage content without access to payments or private customer records.
+- Public forms use server-side validation, rate limits and spam protection.
+- Sensitive operations are audited.
+- Storage permissions follow the same access rules.
+
+Never rely only on hiding buttons in the frontend for security.
+
+Keep payment credentials and privileged database keys server-side.
+
+## 11. PAYMENTS — PESA PAL API 3.0
+
+Implement a real server-side PesaPal API 3.0 integration.
+
+Official documentation:
+https://developer.pesapal.com/how-to-integrate/e-commerce/api-30-json/api-reference
+
+Use the official current API documentation for authentication, IPN registration, order submission and transaction status verification.
+
+Support UGX and USD where enabled and accepted by the merchant account. Payment methods displayed at checkout must reflect actual provider support.
+
+### Required server-side configuration
+
+Use secrets such as:
+- `PESAPAL_CONSUMER_KEY`
+- `PESAPAL_CONSUMER_SECRET`
+- `PESAPAL_ENV`
+- `PESAPAL_IPN_ID`
+- `APP_BASE_URL`
+
+Do not place credentials in frontend code, database seed files, public configuration or source control.
+
+Use the correct sandbox endpoints for testing and production endpoints for live transactions.
+
+### Payment workflow
+
+1. Customer submits checkout.
+2. Server loads authoritative product/service prices from the database.
+3. Server validates customer details, stock, currency and total.
+4. Server creates a pending order with a unique merchant reference.
+5. Server creates a payment attempt linked to that order.
+6. Server obtains an authenticated PesaPal token.
+7. Server submits the order to PesaPal with the required callback URL and registered IPN ID.
+8. Customer is redirected to the returned payment URL.
+9. Customer returns to the callback page.
+10. Server independently queries PesaPal using the order tracking ID.
+11. The IPN endpoint receives payment notifications and independently queries PesaPal for the current transaction status.
+12. The payment record is updated idempotently.
+13. The associated order is marked paid only after a verified successful status and matching order reference, currency and amount.
+14. The system records the provider response, payment method, tracking ID, confirmation information and verification timestamps.
+15. Customer receives a receipt and order confirmation.
+16. The admin dashboard updates.
+
+Use the provider's documented status mapping. Do not assume that a pending, incomplete, failed or cancelled transaction is paid.
+
+### Webhook and reconciliation safeguards
+
+- Register the IPN endpoint using the official API.
+- Support repeated notifications without duplicate processing.
+- Validate that the notification belongs to an existing payment attempt.
+- Verify transaction status directly with PesaPal.
+- Compare the merchant reference, expected amount and currency with the authoritative order.
+- Never trust a client-supplied payment status.
+- Record all status changes and provider event details.
+- Prevent duplicate fulfilment and duplicate stock deductions.
+- Handle delayed notifications and customers who close the browser before returning.
+- Return the response format required by PesaPal.
+- Provide a reconciliation process for pending payments.
+- Log errors safely without exposing credentials or unnecessary personal data.
+
+A success page must never mark an order as paid independently.
+
+### Payment status values
+
+Support:
+- pending
+- processing
+- completed
+- failed
+- cancelled
+- refunded
+- partially_refunded
+
+Keep order status separate from payment status.
+
+### Refunds
+
+Provide an admin refund workflow with:
+- Reason.
+- Amount.
+- Original payment reference.
+- Approval where required.
+- Provider refund support only where available.
+- Manual refund recording where applicable.
+- Audit trail.
+- Updated balance and customer communication.
+
+Do not claim that a refund was sent to PesaPal if the API call has not succeeded.
+
+### Payment testing
+
+Implement sandbox testing for:
+- Successful payment.
+- Failed payment.
+- Cancelled payment.
+- Pending payment.
+- Delayed IPN.
+- Duplicate IPN.
+- Invalid order reference.
+- Amount or currency mismatch.
+- Gateway timeout.
+- Customer closing the browser.
+- Reconciliation of pending transactions.
+
+Do not switch to live mode until the required merchant credentials, callback URL, IPN registration and test results have been confirmed.
+
+## 12. MANUAL PAYMENTS
+
+Support admin-approved manual bank and mobile-money payments.
+
+At checkout:
+- Explain that payment requires verification.
+- Generate a unique order reference.
+- Display only the approved payment instructions relevant to the selected currency and payment method.
+- Allow the customer to submit a transaction reference and optional proof of payment.
+- Store the submission securely.
+- Keep the order pending until an authorised finance user verifies the funds.
+- Record who approved the payment and when.
+- Prevent customers from approving their own submissions.
+
+Use verified bank and mobile-money details from the supplied business configuration for appropriate invoices and manual-payment instructions.
+
+Do not expose account numbers on public marketing pages. Do not treat uploaded screenshots or receipts as proof that money was received.
+
+## 13. INVOICING AND RECEIPTS
+
+Build a complete invoicing module.
+
+Support:
+- Unique invoice numbers.
+- Customer and business details.
+- Invoice issue date.
+- Due date.
+- Item descriptions.
+- Quantity and unit price.
+- Subtotal.
+- Applicable tax and tax display.
+- Amount paid.
+- Balance due.
+- Currency.
+- Notes.
+- Invoice status.
+- Printable A4 invoice.
+- PDF export.
+- Payment receipts.
+- Partial payments.
+- Payment history.
+- Refund adjustments.
+- Invoice cancellation with audit trail.
+
+Use a professional navy-and-gold invoice design with the Nyota One logo, correct business details, payment instructions and a clear amount due.
+
+Use the configured tax rules and approved invoice policy. Do not hardcode an unverified tax rate or claim that a tax filing has been completed.
+
+Invoices and receipts must reflect actual recorded transactions. Only issue a payment receipt for money confirmed as received.
+
+Provide secure customer access to their own invoices and receipts.
+
+## 14. DOMAIN AVAILABILITY AND REGISTRATION
+
+Create `/domains` with domain search for supported extensions such as:
+- .com
+- .org
+- .net
+- .co.ug
+- Other extensions configured by the administrator.
+
+Implement an accurate domain availability integration using an appropriate registrar API when available.
+
+Use RDAP, DNS and other registry data only as supporting checks, not as proof that a domain can definitely be registered.
+
+Clearly distinguish:
+- Availability check.
+- Registration eligibility.
+- Final registrar confirmation.
+- Domain registration order.
+- Domain registration completion.
+
+Do not label a domain as guaranteed available based solely on DNS or RDAP responses.
+
+If no registrar integration or account credentials are configured, provide a clearly labelled availability-check or enquiry workflow rather than claiming to perform live registration.
+
+Where live registration is enabled:
+- Verify final availability with the registrar.
+- Display the correct registration price and renewal terms.
+- Create the domain order.
+- Process payment.
+- Register the domain through the configured provider.
+- Record the registrar reference and result.
+- Show the customer the final status.
+
+Never claim a domain was registered unless the registrar confirms it.
+
+## 15. AI BUSINESS ADVISOR — AMARA
+
+Build an interactive business advisor called Amara.
+
+The advisor should ask guided questions about:
+- Business type.
+- Current online presence.
+- Customer communication.
+- Sales and inventory.
+- Operational challenges.
+- Budget range.
+- Business goals.
+
+Use Gemini through server-side API calls.
+
+Generate structured recommendations containing:
+- Main business challenges identified.
+- Recommended Nyota One services.
+- Why each recommendation fits.
+- Available packages and current prices from the database.
+- Suggested next steps.
+- Optional estimated timeline based on configured service information.
+- A WhatsApp handoff with a prepared enquiry.
+
+The advisor must not invent prices, service availability or guaranteed business results.
+
+Allow the customer to review the recommendations before submitting them.
+
+Protect the service against abuse and do not send private customer information to the model unnecessarily.
+
+## 16. BLOG AND RESOURCE CENTRE
+
+The blog is a core business and SEO asset, not an optional feature.
+
+Build:
+- `/blog`
+- `/blog/:slug`
+- Category pages.
+- Tag pages where useful.
+- Search.
+- Related articles.
+- Author information.
+- Publication dates.
+- Reading-time estimates.
+- Featured images.
+- Social sharing metadata.
+- Breadcrumbs.
+- Pagination.
+- Draft, scheduled and published states.
+
+### Content migration
+
+Import all existing blog posts and articles from the current Nyota One website and available source files.
+
+Preserve their original URLs where possible. Record redirects for changed slugs.
+
+Do not delete existing posts or replace them with newly generated articles.
+
+### Content management
+
+Allow authorised editors and administrators to:
+- Create and edit posts.
+- Save drafts.
+- Preview posts.
+- Upload featured images.
+- Manage categories and tags.
+- Set publication dates.
+- Edit SEO titles and descriptions.
+- Add internal links.
+- Schedule publication where supported.
+- Publish and unpublish posts.
+- View a content audit history.
+
+Use a proper rich-text or Markdown editor with safe rendering.
+
+### Initial content plan
+
+In addition to migrating existing articles, create an editorial plan covering:
+1. How to Choose a Website Design Company in Uganda.
+2. How Much Does a Business Website Cost in Uganda?
+3. Business Email vs Free Email for a Growing Business.
+4. How to Register a Domain for a Ugandan Business.
+5. Website Hosting: What Businesses Need to Know.
+6. How an Online Store Can Help a Small Business.
+7. Choosing a POS System for a Retail Business.
+8. Why Inventory Management Matters.
+9. Practical Ways to Improve a Business's Google Visibility.
+10. How to Create a Professional Online Presence.
+11. Digital Tools for Schools and Education Centres.
+12. How to Digitize Everyday Business Records.
+13. CCTV and Basic Business Security Planning.
+14. When a Business Should Automate Repetitive Tasks.
+15. How to Choose the Right IT Support Provider.
+
+Treat these as proposed new articles, not existing content.
+
+Write useful, original, well-structured content that answers real customer questions. Use clear language, accurate information and natural search terms. Avoid keyword stuffing, repetitive AI-generated filler and unsupported claims.
+
+Create drafts first and require editorial review before publishing new articles.
+
+## 17. PORTFOLIO AND CASE STUDIES
+
+Build a complete projects directory with filters such as:
+- E-commerce.
+- Education technology.
+- Finance.
+- Internal business tools.
+- Logistics.
+- Websites.
+- Business systems.
+
+Migrate existing projects and live links.
+
+For every project, support:
+- Title.
+- Slug.
+- Category.
+- Project description.
+- Customer problem.
+- Solution.
+- Technology used where known.
+- Images and screenshots.
+- Live URL.
+- Publication status.
+- SEO metadata.
+
+Do not invent customer identities, results or testimonials. Clearly identify internal Nyota One products, demonstrations and client work.
+
+## 18. CUSTOMER ACCOUNTS AND DASHBOARD
+
+Create secure customer registration, login, logout and password recovery.
+
+Allow customers to:
+- View their profile.
+- View orders.
+- Track payment status.
+- View invoices and receipts.
+- Review purchased services.
+- View product delivery status.
+- Access eligible digital downloads.
+- Submit service enquiries.
+- Create support tickets.
+- Review order references.
+- Update permitted contact details.
+
+Do not expose other customers' information through URL manipulation or API requests.
+
+Support guest checkout for eligible physical products and consultations if enabled. Accounts may be required for services or products that need ongoing management.
+
+## 19. ADMINISTRATION DASHBOARD
+
+Create a protected `/dashboard` with role-based access.
+
+### Overview
+
+Show:
+- Total orders.
+- Pending orders.
+- Confirmed paid orders.
+- Failed payments.
+- Pending payment verification.
+- Revenue by original transaction currency.
+- Outstanding invoices.
+- New service enquiries.
+- Product stock alerts.
+- Recent customer activity.
+
+Do not combine UGX and USD into one revenue total without an explicitly configured exchange-rate method. Show separate currency totals by default.
+
+### Product management
+
+Allow authorised staff to:
+- Create and edit products.
+- Manage categories.
+- Upload images.
+- Set prices.
+- Update stock.
+- Manage warranties.
+- Configure preorder rules.
+- Publish or unpublish listings.
+
+### Service management
+
+Allow authorised staff to:
+- Manage services and packages.
+- Update prices.
+- Configure scope and deliverables.
+- Review enquiries.
+- Create quotations.
+- Convert approved quotations into orders or invoices.
+
+### Order management
+
+Provide:
+- Search.
+- Filters.
+- Order details.
+- Customer contact details for authorised staff.
+- Payment status.
+- Payment tracking references.
+- Fulfilment status.
+- Delivery information.
+- Internal notes.
+- Audit history.
+
+### Finance
+
+Allow finance users to:
+- Review manual payment submissions.
+- Approve or reject verification requests.
+- Create invoices.
+- Record payments.
+- Manage partial payments.
+- Review refunds.
+- Export authorised reports.
+- Reconcile PesaPal transactions.
+
+### Blog management
+
+Allow editors to manage all blog posts, images, categories, tags, redirects, publication dates and SEO fields.
+
+### Customer support
+
+Allow support staff to review tickets, update status, communicate with customers and record internal notes.
+
+### System configuration
+
+Provide a secure settings area for:
+- Business contact details.
+- WhatsApp number.
+- Currency settings.
+- Payment mode.
+- Service prices.
+- Delivery rules.
+- Tax display settings.
+- Email configuration.
+- SEO defaults.
+- Social links.
+- Feature toggles.
+
+Never permit administrators to view stored passwords or retrieve secret API credentials from the frontend.
+
+## 20. CONTACT DETAILS AND BUSINESS INFORMATION
+
+Use the following configured contact details consistently:
+
+Nyota One, operating under Ordernow Digital Solutions.
+
+Uganda WhatsApp:
++256 702 086774
+
+WhatsApp URL:
+https://wa.me/256702086774
+
+Uganda phone:
++256 772 023461
+
+UK phone:
++44 747 210 5295
+
+Coverage includes Uganda, the UK, the USA, Kenya, Tanzania, Nigeria, Ghana and other markets where services can be delivered.
+
+Only display geographic presence, offices, registrations or partnerships that can be substantiated.
+
+Use supplied business registration details only where they are accurate and approved for public display.
+
+Keep bank account details and other sensitive payment instructions in the appropriate invoice and manual-payment flows, not public marketing sections.
+
+## 21. CONTACT FORMS, EMAIL AND NOTIFICATIONS
+
+Create enquiry forms that save records to the database before opening WhatsApp.
+
+Support:
+- Service enquiries.
+- Product enquiries.
+- General contact.
+- Consultation bookings.
+- Support requests.
+- Manual payment submissions.
+
+Use server-side validation, spam protection, rate limits and a honeypot field where appropriate.
+
+Create a notification system for:
+- New service enquiries.
+- New orders.
+- Verified payments.
+- Failed payments.
+- Manual payment submissions.
+- Invoice creation.
+- Refund updates.
+- Support ticket updates.
+
+Use a properly configured transactional email provider if email delivery is required.
+
+Do not display a successful email-delivery message until the email provider confirms the relevant request was accepted.
+
+If email credentials are not configured, record the notification as pending or unavailable and document the required setup.
+
+WhatsApp links should open with relevant, correctly encoded enquiry text. Do not claim a WhatsApp message was sent merely because a link was opened.
+
+## 22. GOOGLE SEO AND SEARCH VISIBILITY
+
+Implement a comprehensive technical and on-page SEO system.
+
+### Metadata
+
+Each public page should have:
+- A unique title.
+- A unique meta description.
+- A canonical URL.
+- Appropriate social sharing metadata.
+- Descriptive headings.
+- Relevant image alt text.
+
+Homepage title:
+
+Nyota One | Website Design, Business Email & IT Solutions Uganda
+
+Homepage description:
+
+Nyota One helps businesses in Uganda build websites, set up business email, register domains, host websites and implement POS, inventory and digital business systems.
+
+### Service SEO
+
+Build useful, distinct landing pages for:
+- Website design in Uganda.
+- Website redesign.
+- Business email.
+- Domain registration.
+- Web hosting.
+- E-commerce website development.
+- POS and inventory systems.
+- Business automation.
+- Data digitization.
+- Business photography and digital content.
+
+Do not generate thin duplicate pages simply to target keywords.
+
+### Technical SEO
+
+Implement:
+- XML sitemap.
+- Correct robots.txt.
+- Canonical URLs.
+- Clean redirects.
+- Crawlable navigation.
+- Correct index/noindex directives.
+- Descriptive image filenames.
+- Optimized images.
+- Mobile-friendly layouts.
+- Fast rendering.
+- Structured data.
+- Useful internal links.
+- Proper error pages.
+
+Generate the sitemap from actual published, canonical and indexable pages, including published blog posts, projects and service pages.
+
+Do not include private dashboards, checkout sessions, customer records or draft content in the public sitemap.
+
+### Structured data
+
+Implement valid JSON-LD where appropriate:
+- Organization.
+- WebSite.
+- BreadcrumbList.
+- Service.
+- Product and Offer for real product listings.
+- Article or BlogPosting for published blog posts.
+- LocalBusiness only when the selected business type and verified information qualify.
+
+Never invent ratings, reviews, addresses, prices or availability.
+
+### Google integrations
+
+Prepare the site for:
+- Google Search Console.
+- Google Analytics where configured.
+- Google Business Profile where eligible.
+
+Do not claim that a site is verified, indexed or ranking highly unless this has been independently confirmed.
+
+## 23. LEGAL, PRIVACY AND CUSTOMER TRUST
+
+Build the following pages:
+- Privacy Policy.
+- Terms of Service.
+- Refund Policy.
+- Shipping and Delivery Policy.
+- Cookie information where applicable.
+
+Ensure the policies accurately describe actual business practices and applicable legal obligations.
+
+Support customer consent where required, data minimisation, secure access and appropriate retention.
+
+Do not invent legal registrations, certifications, guarantees or compliance claims.
+
+## 24. PERFORMANCE AND ACCESSIBILITY
+
+Target:
+- Responsive design across desktop, tablet and mobile.
+- Fast initial rendering.
+- Optimized fonts and images.
+- Semantic HTML.
+- Accessible colour contrast.
+- Keyboard-accessible controls.
+- Clear form labels and errors.
+- Reduced-motion support.
+- No avoidable console errors.
+- No horizontal overflow.
+- Correct loading and error states.
+
+Measure performance with available tools. Do not claim perfect Lighthouse scores or Core Web Vitals without actual measurements.
+
+## 25. TESTING AND RELEASE MANAGEMENT
+
+Create automated tests for the main business workflows.
+
+Test:
+- Customer registration and authentication.
+- Role-based access.
+- Product listing and search.
+- Shopping cart totals.
+- Currency selection.
+- Stock validation.
+- Service enquiries.
+- Service checkout.
+- Successful PesaPal sandbox payment.
+- Failed payment.
+- Delayed and duplicate IPN.
+- Manual payment approval.
+- Invoice generation.
+- Partial payment calculations.
+- Refund workflow.
+- Customer order access.
+- Blog creation and publication.
+- Existing URL redirects.
+- Admin dashboard access.
+- SEO metadata and sitemap generation.
+
+Run database migrations, build checks, linting and relevant tests.
+
+Do not use production payment credentials in automated tests.
+
+Before deployment:
+1. Confirm that all required secrets are configured.
+2. Confirm the database migrations have been applied.
+3. Confirm admin access has been securely established.
+4. Test payment callbacks and IPN against the publicly reachable test deployment.
+5. Test email delivery where enabled.
+6. Verify existing blog and project migrations.
+7. Check the mobile layout.
+8. Review access control and RLS policies.
+9. Take a backup of the existing production system and content.
+10. Deploy only after critical checks pass.
+
+Provide a rollback plan.
+
+## 26. IMPLEMENTATION PHASES
+
+Build in manageable phases while preserving the complete product goal.
+
+Phase 1 — Inspect the existing website, preserve source material, create the design system and implement the homepage and public navigation.
+
+Phase 2 — Build the database, authentication, role permissions and admin foundation.
+
+Phase 3 — Implement services, products, categories, inventory, cart and checkout.
+
+Phase 4 — Integrate PesaPal sandbox, callbacks, IPN, transaction verification, receipts and manual payment review.
+
+Phase 5 — Implement customer accounts, orders, invoices, delivery tracking and finance tools.
+
+Phase 6 — Migrate the existing blog and portfolio, then implement the full content management system.
+
+Phase 7 — Implement domain search, Amara AI Advisor, notifications and support workflows.
+
+Phase 8 — Implement technical SEO, redirects, accessibility, performance checks and automated tests.
+
+Phase 9 — Complete sandbox acceptance testing, document outstanding configuration, and prepare controlled production deployment.
+
+Do not stop after creating the homepage mockup. Continue implementing the remaining phases and maintain a clear record of completed and outstanding work.
+
+## 27. REQUIRED FINAL DELIVERABLE
+
+Deliver:
+- A working full-stack Nyota One application.
+- Responsive public website.
+- Product and service catalogue.
+- Working shopping cart and checkout.
+- PesaPal sandbox integration.
+- Payment verification and IPN processing.
+- Manual payment verification.
+- Customer accounts and order tracking.
+- Invoices and receipts.
+- Secure admin dashboard.
+- Product and inventory management.
+- Service enquiry management.
+- Blog and portfolio management.
+- Migration of all recoverable existing blog posts and projects.
+- SEO metadata, structured data, redirects and sitemap.
+- Database migrations and RLS policies.
+- Automated tests for critical workflows.
+- Environment-variable template.
+- Deployment and rollback instructions.
+- Administrator setup instructions.
+- Payment provider configuration instructions.
+- A final test and migration report.
+
+The final report must clearly distinguish:
+1. Features fully implemented and tested.
+2. Features implemented but awaiting credentials or external configuration.
+3. Features that failed testing.
+4. Content successfully migrated.
+5. Content that could not be recovered.
+6. Production launch requirements still outstanding.
+
+Do not claim production readiness merely because the application builds or displays a preview.
+
+**Final product principle: Nyota One must be a real business platform, not just a beautiful website. Prioritise trust, working transactions, reliable data, customer convenience, security and sustainable search visibility.**
