@@ -69,6 +69,115 @@ assert(!!twekolereRedirect, 'Twekolere project URL is mapped with redirect');
 const ugalightsRedirect = MIGRATION_LOG.find((m) => m.sourceUrl.includes('ugalights'));
 assert(!!ugalightsRedirect, 'UGALights commerce hub URL is mapped with redirect');
 
+// 6. Invoices, Matching Orders & Corporate Rubber Stamps (PAID / PAY LATER)
+console.log('\n[6. Invoices, Pay Later Matching & Corporate Stamps]');
+import { INITIAL_INVOICES, INITIAL_ORDERS } from '../src/data/seedData';
+import { store } from '../src/lib/store';
+
+const paidSeedInv = INITIAL_INVOICES.find((i) => i.stamp === 'PAID');
+assert(!!paidSeedInv, 'Initial invoices contain at least one invoice with PAID stamp');
+assert(paidSeedInv?.paidAt !== undefined, 'PAID invoice has paidAt timestamp');
+
+const payLaterSeedInv = INITIAL_INVOICES.find((i) => i.stamp === 'PAY_LATER');
+assert(!!payLaterSeedInv, 'Initial invoices contain at least one invoice with PAY_LATER stamp');
+assert(Boolean(payLaterSeedInv?.paymentTerms?.includes('Net')), 'PAY_LATER invoice has clear net payment terms');
+
+// Test automated matching invoice generation for Pay Later Order
+const testPayLaterOrder = store.createOrder({
+  orderReference: 'NYOTA-TEST-PAY-LATER-999',
+  customerName: 'Sarah Namugga',
+  customerEmail: 'sarah@testenterprise.com',
+  customerPhone: '+256 701 999 888',
+  deliveryAddress: 'Plot 12, Lugogo Bypass, Kampala',
+  currency: 'UGX',
+  paymentMethod: 'pay_later',
+  paymentStatus: 'pending',
+  orderStatus: 'processing',
+  items: [
+    {
+      id: 'item-test-1',
+      itemId: 'srv-1',
+      type: 'service',
+      title: 'Starter Business Website',
+      quantity: 1,
+      unitPrice: 450000,
+      subtotal: 450000
+    }
+  ],
+  total: 450000,
+  subtotal: 450000,
+  deliveryFee: 0,
+  discount: 0
+});
+
+const matchingPayLaterInv = store.invoices.find((i) => i.orderReference === testPayLaterOrder.orderReference);
+assert(!!matchingPayLaterInv, 'Pay later order has an automatically generated matching invoice');
+assert(matchingPayLaterInv?.stamp === 'PAY_LATER', 'Pay later order invoice has PAY_LATER stamp');
+assert(matchingPayLaterInv?.balanceDue === 450000, 'Pay later invoice accurately records full balance due');
+
+// Test recording payment flips stamp to PAID
+const updatedInv = store.recordInvoicePayment(
+  matchingPayLaterInv!.id,
+  450000,
+  'MOMO-TID-TEST-888',
+  'Finance Director',
+  'Full settlement via MTN MoMo'
+);
+assert(updatedInv?.stamp === 'PAID', 'Recording full payment flips PAY_LATER stamp to PAID');
+assert(updatedInv?.balanceDue === 0, 'Balance due is cleared to 0 upon payment');
+assert(updatedInv?.verifiedBy === 'Finance Director', 'Payment verification staff recorded on stamp');
+
+// Test manual finance commercial invoice creation
+const manualInv = store.createManualInvoice({
+  customerName: 'Kikubo Wholesalers Association',
+  customerEmail: 'accounts@kikubo.ug',
+  customerPhone: '+256 752 111 222',
+  customerAddress: 'Kikubo Lane, Kampala',
+  currency: 'UGX',
+  paymentTerms: 'Pay Later — Net 14 Days',
+  dueDate: '2026-11-15',
+  stamp: 'PAY_LATER',
+  items: [
+    {
+      description: 'Custom ERP and Multi-Branch Sync Machine',
+      quantity: 1,
+      unitPrice: 1800000,
+      amount: 1800000
+    }
+  ],
+  notes: 'Commercial credit granted under Nyota Partner Terms.'
+});
+assert(!!manualInv, 'Manual invoice created successfully via finance desk');
+assert(manualInv.stamp === 'PAY_LATER', 'Manual invoice has PAY_LATER stamp applied');
+const matchingOrderForManual = store.orders.find((o) => o.orderReference === manualInv.orderReference);
+assert(!!matchingOrderForManual, 'Manual finance invoice creates synchronized matching order record');
+
+// 7. Toast Notification Feedback on Cart Additions
+console.log('\n[7. Toast Notification Feedback on Cart Additions]');
+store.clearToasts();
+assert(store.toasts.length === 0, 'Toast list is initially empty after clearing');
+
+store.addToCart({
+  itemId: 'POS-MOB-001',
+  type: 'product',
+  title: 'Sunmi V2 Mobile POS Terminal',
+  priceUGX: 650000,
+  priceUSD: 175,
+  quantity: 2,
+  category: 'Mobile POS'
+});
+
+assert(store.toasts.length > 0, 'Adding an item to the cart triggers a toast notification');
+const latestToast = store.toasts[0];
+assert(latestToast.type === 'success', 'Toast notification has success type');
+assert(latestToast.title === 'Added to Cart', 'Toast notification title is "Added to Cart"');
+assert(latestToast.item?.title === 'Sunmi V2 Mobile POS Terminal', 'Toast notification accurately records item title');
+assert(latestToast.item?.quantity === 2, 'Toast notification records item quantity');
+assert(latestToast.item?.priceUGX === 650000, 'Toast notification records accurate item pricing');
+
+store.dismissToast(latestToast.id);
+assert(store.toasts.length === 0, 'Dismissing the toast removes it from active list');
+
 // Summary
 console.log(`\n==========================================`);
 console.log(`Test Execution Finished: ${testsPassed} Passed, ${testsFailed} Failed.`);

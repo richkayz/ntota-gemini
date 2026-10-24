@@ -32,7 +32,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate, onOrderC
   );
 
   const [paymentMethod, setPaymentMethod] = useState<
-    'pesapal_mobile_money' | 'manual_mobile_money' | 'manual_bank_wire'
+    'pesapal_mobile_money' | 'manual_mobile_money' | 'manual_bank_wire' | 'pay_later'
   >('pesapal_mobile_money');
 
   const [manualTxnRef, setManualTxnRef] = useState('');
@@ -436,6 +436,43 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onNavigate, onOrderC
                         <div>Account Number: <strong>{currency === 'UGX' ? '9030018491024' : '9030018491032 (USD)'}</strong></div>
                         <div>SWIFT: <strong>SBICUGKX</strong></div>
                       </div>
+                    </div>
+                  )}
+                </label>
+
+                {/* Pay Later / Invoice Me Option */}
+                <label className="block p-4 rounded-xl border border-slate-200 hover:border-amber-400 cursor-pointer transition-colors bg-amber-50/20">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      checked={paymentMethod === 'pay_later'}
+                      onChange={() => setPaymentMethod('pay_later')}
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-slate-900 text-sm">
+                          Pay Later / Commercial Invoice (Net 7 Days)
+                        </span>
+                        <span className="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">
+                          PAY LATER STAMP
+                        </span>
+                      </div>
+                      <p className="text-slate-500 text-[11px] mt-0.5">
+                        Ideal for corporate purchase orders, institutions, or settlement on delivery. Generates a formal invoice with an official <strong>PAY LATER</strong> stamp and due date.
+                      </p>
+                    </div>
+                  </div>
+
+                  {paymentMethod === 'pay_later' && (
+                    <div className="mt-3 p-3 bg-white border border-amber-300 rounded-lg text-slate-700 text-[11px] space-y-1">
+                      <div className="font-semibold text-amber-900 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                        Terms: Net 7 Days from Invoice Issue Date
+                      </div>
+                      <p className="text-slate-600">
+                        You will receive an official invoice stamped <strong>PAY LATER</strong> with your order reference. Our accounts team coordinates dispatch and payment settlement.
+                      </p>
                     </div>
                   )}
                 </label>

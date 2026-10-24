@@ -12,7 +12,8 @@ import {
   PortfolioProject,
   SupportTicket,
   ServiceEnquiryLead,
-  AuditLog
+  AuditLog,
+  ToastNotification
 } from '../types';
 import {
   INITIAL_SERVICES,
@@ -42,6 +43,9 @@ const STORAGE_KEYS = {
 
 function getStoredItem<T>(key: string, defaultValue: T): T {
   try {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+      return defaultValue;
+    }
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : defaultValue;
   } catch {
@@ -51,6 +55,9 @@ function getStoredItem<T>(key: string, defaultValue: T): T {
 
 function setStoredItem<T>(key: string, value: T): void {
   try {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+      return;
+    }
     localStorage.setItem(key, JSON.stringify(value));
   } catch (e) {
     console.warn('Storage set failed', e);
@@ -141,6 +148,31 @@ class AppStore {
     }
   ]);
 
+  // Toast notifications for visual feedback
+  public toasts: ToastNotification[] = [];
+
+  public showToast(toast: Omit<ToastNotification, 'id'> & { id?: string }): string {
+    const id = toast.id || `toast-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+    const newToast: ToastNotification = {
+      ...toast,
+      id,
+      duration: toast.duration ?? 4500
+    };
+    this.toasts = [newToast, ...this.toasts.filter((t) => t.id !== id).slice(0, 2)];
+    this.notify();
+    return id;
+  }
+
+  public dismissToast(id: string): void {
+    this.toasts = this.toasts.filter((t) => t.id !== id);
+    this.notify();
+  }
+
+  public clearToasts(): void {
+    this.toasts = [];
+    this.notify();
+  }
+
   public subscribe(listener: () => void): () => void {
     this.listeners.add(listener);
     return () => this.listeners.delete(listener);
@@ -192,6 +224,25 @@ class AppStore {
     }
     this.cart = updated;
     setStoredItem(STORAGE_KEYS.CART, updated);
+
+    // Auto-trigger visual feedback toast notification
+    this.showToast({
+      type: 'success',
+      title: 'Added to Cart',
+      message: `${item.title} has been added to your order.`,
+      item: {
+        id: item.itemId,
+        title: item.title,
+        quantity: item.quantity,
+        priceUGX: item.priceUGX,
+        priceUSD: item.priceUSD,
+        imageUrl: item.imageUrl,
+        type: item.type,
+        category: item.category
+      },
+      duration: 4500
+    });
+
     this.notify();
   }
 
@@ -305,15 +356,20 @@ class AppStore {
     this.orders = updated;
     setStoredItem(STORAGE_KEYS.ORDERS, updated);
 
-    // If completed, update invoice to paid
-    if (paymentStatus === 'completed' && affectedOrder) {
+    // If completed, update invoice to paid with PAID stamp
+    if (affectedOrder) {
+      const isCompleted = paymentStatus === 'completed';
       const invUpdated = this.invoices.map((inv) => {
-        if (inv.orderId === orderId) {
+        if (inv.orderId === orderId || inv.orderReference === affectedOrder?.orderReference) {
           return {
             ...inv,
-            status: 'paid' as const,
-            amountPaid: inv.total,
-            balanceDue: 0
+            status: isCompleted ? ('paid' as const) : ('pay_later' as const),
+            stamp: isCompleted ? ('PAID' as const) : ('PAY_LATER' as const),
+            amountPaid: isCompleted ? inv.total : inv.amountPaid,
+            balanceDue: isCompleted ? 0 : inv.total,
+            paidAt: isCompleted ? new Date().toISOString() : inv.paidAt,
+            verifiedBy: isCompleted ? verifiedBy : inv.verifiedBy,
+            paymentReference: trackingId || affectedOrder?.pesapalTrackingId || affectedOrder?.manualPaymentReference || inv.paymentReference
           };
         }
         return inv;
@@ -392,8 +448,19 @@ class AppStore {
   }
 
   // Invoice management
-  private createInvoiceFromOrder(order: Order): void {
+  public createInvoiceFromOrder(order: Order): Invoice {
     const invoiceNumber = `INV-${new Date().getFullYear()}-${String(this.invoices.length + 1).padStart(3, '0')}`;
+    const isPaid = order.paymentStatus === 'completed';
+    const isPayLater = order.paymentMethod === 'pay_later' || order.paymentStatus === 'pending' || order.paymentMethod.startsWith('manual_');
+
+    const status = isPaid ? 'paid' : (order.paymentMethod === 'pay_later' ? 'pay_later' : 'unpaid');
+    const stamp = isPaid ? 'PAID' : (isPayLater ? 'PAY_LATER' : 'UNPAID');
+    const paymentTerms = isPaid
+      ? 'Immediate Gateway Settlement (Verified)'
+      : (order.paymentMethod === 'pay_later' 
+          ? 'Pay Later — Net 7 Days' 
+          : 'Pending Payment Verification / Pay on Delivery');
+
     const newInvoice: Invoice = {
       id: `inv-${Date.now()}`,
       invoiceNumber,
@@ -416,16 +483,208 @@ class AppStore {
       tax: 0,
       discount: order.discount,
       total: order.total,
-      amountPaid: order.paymentStatus === 'completed' ? order.total : 0,
-      balanceDue: order.paymentStatus === 'completed' ? 0 : order.total,
-      status: order.paymentStatus === 'completed' ? 'paid' : 'unpaid',
-      notes: 'Thank you for partnering with Nyota One. We build the digital foundation for your enterprise.',
+      amountPaid: isPaid ? order.total : 0,
+      balanceDue: isPaid ? 0 : order.total,
+      status,
+      stamp,
+      paymentTerms,
+      paidAt: isPaid ? order.verifiedAt || new Date().toISOString() : undefined,
+      verifiedBy: isPaid ? order.verifiedBy || 'Automated Gateway' : undefined,
+      paymentReference: order.pesapalTrackingId || order.manualPaymentReference || undefined,
+      notes: isPaid
+        ? 'Payment verified. Thank you for partnering with Nyota One.'
+        : 'Pay Later terms applied. Please settle before due date to avoid service suspension.',
       created_at: new Date().toISOString()
     };
 
     const updated = [newInvoice, ...this.invoices];
     this.invoices = updated;
     setStoredItem(STORAGE_KEYS.INVOICES, updated);
+    return newInvoice;
+  }
+
+  public createManualInvoice(data: Partial<Invoice> & { customerName: string; currency: Currency }): Invoice {
+    const id = `inv-${Date.now()}`;
+    const invoiceNumber =
+      data.invoiceNumber || `INV-${new Date().getFullYear()}-${String(this.invoices.length + 1).padStart(3, '0')}`;
+    const orderReference =
+      data.orderReference || `NYOTA-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    const items = (data.items || []).map((item) => {
+      const quantity = Number(item.quantity) || 1;
+      const unitPrice = Number(item.unitPrice) || 0;
+      return {
+        description: item.description,
+        quantity,
+        unitPrice,
+        amount: item.amount ?? quantity * unitPrice
+      };
+    });
+
+    const subtotal = data.subtotal ?? items.reduce((sum, i) => sum + i.amount, 0);
+    const tax = data.tax ?? Math.round(subtotal * 0.18);
+    const discount = data.discount ?? 0;
+    const total = data.total ?? Math.max(0, subtotal + tax - discount);
+    const isPaid = data.stamp === 'PAID' || data.status === 'paid';
+    const amountPaid = data.amountPaid ?? (isPaid ? total : 0);
+    const balanceDue = data.balanceDue ?? (isPaid ? 0 : Math.max(0, total - amountPaid));
+    const status = isPaid ? ('paid' as const) : ('pending' as const);
+    const stamp = isPaid ? ('PAID' as const) : (data.stamp || ('PAY_LATER' as const));
+    const issueDate = data.issueDate || new Date().toISOString().split('T')[0];
+    const dueDate =
+      data.dueDate || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const paymentTerms =
+      data.paymentTerms || (stamp === 'PAY_LATER' ? 'Pay Later — Net 7 Days' : 'Due on Receipt');
+
+    const newInvoice: Invoice = {
+      id,
+      invoiceNumber,
+      orderReference,
+      customerName: data.customerName,
+      customerEmail: data.customerEmail || 'billing@client.com',
+      customerPhone: data.customerPhone || '+256 700 000 000',
+      customerAddress: data.customerAddress || 'Kampala, Uganda',
+      items,
+      currency: data.currency,
+      subtotal,
+      tax,
+      discount,
+      total,
+      amountPaid,
+      balanceDue,
+      status,
+      stamp,
+      paymentTerms,
+      issueDate,
+      dueDate,
+      paidAt: isPaid ? data.paidAt || new Date().toISOString() : undefined,
+      verifiedBy: data.verifiedBy,
+      paymentReference: data.paymentReference,
+      notes: data.notes || 'Commercial digital solutions by Nyota One. Net terms apply.',
+      created_at: new Date().toISOString()
+    };
+
+    // If there is no matching order, auto-create a matching order so records stay synchronized
+    const existingOrder = this.orders.find((o) => o.orderReference === orderReference);
+    if (!existingOrder) {
+      const matchingOrder: Order = {
+        id: `ord-${Date.now()}`,
+        orderReference,
+        customerName: data.customerName,
+        customerEmail: data.customerEmail || 'billing@client.com',
+        customerPhone: data.customerPhone || '+256 700 000 000',
+        deliveryAddress: data.customerAddress || 'Client Office',
+        city: 'Kampala',
+        country: data.currency === 'UGX' ? 'Uganda' : 'International',
+        items: items.map((item, idx) => ({
+          id: `item-${Date.now()}-${idx}`,
+          itemId: `custom-${idx}`,
+          title: item.description,
+          type: 'service',
+          unitPrice: item.unitPrice,
+          quantity: item.quantity,
+          subtotal: item.amount
+        })),
+        currency: data.currency,
+        subtotal,
+        deliveryFee: 0,
+        discount,
+        total,
+        orderStatus: isPaid ? 'processing' : 'pending',
+        paymentStatus: isPaid ? 'completed' : 'pending',
+        paymentMethod: isPaid ? 'pesapal_mobile_money' : 'pay_later',
+        verifiedBy: data.verifiedBy,
+        verifiedAt: data.paidAt,
+        internalNotes: `Manual invoice created via Finance desk: ${invoiceNumber}`,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      const updatedOrders = [matchingOrder, ...this.orders];
+      this.orders = updatedOrders;
+      setStoredItem(STORAGE_KEYS.ORDERS, updatedOrders);
+    }
+
+    const updated = [newInvoice, ...this.invoices];
+    this.invoices = updated;
+    setStoredItem(STORAGE_KEYS.INVOICES, updated);
+
+    this.addAuditLog({
+      action: 'INVOICE_GENERATED_BY_FINANCE',
+      entityType: 'Invoice',
+      entityId: id,
+      details: `Finance generated ${invoiceNumber} for ${data.customerName} (${data.currency} ${total.toLocaleString()}) with ${stamp} stamp.`
+    });
+
+    this.notify();
+    return newInvoice;
+  }
+
+  public recordInvoicePayment(
+    invoiceId: string,
+    amount: number,
+    paymentRef: string,
+    verifiedBy: string = 'Finance Desk',
+    notes?: string
+  ): Invoice | undefined {
+    let affectedOrderRef: string | undefined;
+    let updatedInvResult: Invoice | undefined;
+
+    const updatedInvoices = this.invoices.map((inv) => {
+      if (inv.id === invoiceId) {
+        affectedOrderRef = inv.orderReference;
+        const newPaid = Math.min(inv.total, (inv.amountPaid || 0) + amount);
+        const newBalance = Math.max(0, inv.total - newPaid);
+        const isFullyPaid = newBalance === 0;
+
+        const updated: Invoice = {
+          ...inv,
+          amountPaid: newPaid,
+          balanceDue: newBalance,
+          status: isFullyPaid ? ('paid' as const) : ('partially_paid' as const),
+          stamp: isFullyPaid ? ('PAID' as const) : ('PARTIALLY_PAID' as const),
+          paidAt: new Date().toISOString(),
+          verifiedBy,
+          paymentReference: paymentRef || inv.paymentReference,
+          notes: notes ? `${inv.notes ? inv.notes + ' | ' : ''}${notes}` : inv.notes
+        };
+        updatedInvResult = updated;
+        return updated;
+      }
+      return inv;
+    });
+
+    this.invoices = updatedInvoices;
+    setStoredItem(STORAGE_KEYS.INVOICES, updatedInvoices);
+
+    // Synchronize matching order
+    if (affectedOrderRef) {
+      const updatedOrders = this.orders.map((o) => {
+        if (o.orderReference === affectedOrderRef) {
+          return {
+            ...o,
+            paymentStatus: (updatedInvResult?.stamp === 'PAID' ? 'completed' : 'pending') as any,
+            orderStatus: 'processing' as const,
+            verifiedBy,
+            verifiedAt: new Date().toISOString(),
+            manualPaymentReference: paymentRef || o.manualPaymentReference,
+            updated_at: new Date().toISOString()
+          };
+        }
+        return o;
+      });
+      this.orders = updatedOrders;
+      setStoredItem(STORAGE_KEYS.ORDERS, updatedOrders);
+    }
+
+    this.addAuditLog({
+      action: 'INVOICE_PAYMENT_RECORDED',
+      entityType: 'Invoice',
+      entityId: invoiceId,
+      details: `Finance recorded payment of ${amount} for invoice ${invoiceId}. Stamp updated.`
+    });
+
+    this.notify();
+    return updatedInvResult;
   }
 
   // Blog management
@@ -558,7 +817,26 @@ export function useAppStore() {
     tickets: store.tickets,
     leads: store.leads,
     auditLogs: store.auditLogs,
+    toasts: store.toasts,
+    showToast: (t: Omit<ToastNotification, 'id'> & { id?: string }) => store.showToast(t),
+    dismissToast: (id: string) => store.dismissToast(id),
+    clearToasts: () => store.clearToasts(),
     createOrder: (data: Omit<Order, 'id' | 'created_at' | 'updated_at'>) => store.createOrder(data),
+    createInvoiceFromOrder: (order: Order) => store.createInvoiceFromOrder(order),
+    createManualInvoice: (
+      data: Partial<Omit<Invoice, 'items'>> & {
+        customerName: string;
+        currency: Currency;
+        items: { description: string; quantity: number; unitPrice: number; amount?: number }[];
+      }
+    ) => store.createManualInvoice(data as any),
+    recordInvoicePayment: (
+      invoiceId: string,
+      amount: number,
+      paymentRef: string,
+      verifiedBy?: string,
+      notes?: string
+    ) => store.recordInvoicePayment(invoiceId, amount, paymentRef, verifiedBy, notes),
     updateOrderStatus: (id: string, s: Order['orderStatus'], notes?: string) => store.updateOrderStatus(id, s, notes),
     updatePaymentStatus: (id: string, s: Order['paymentStatus'], trackingId?: string, verifiedBy?: string) =>
       store.updatePaymentStatus(id, s, trackingId, verifiedBy),

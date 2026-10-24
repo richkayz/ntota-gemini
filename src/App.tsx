@@ -25,6 +25,7 @@ import { ContactPage } from './components/contact/ContactPage';
 import { LegalPages } from './components/legal/LegalPages';
 import { CustomerPortal } from './components/customer/CustomerPortal';
 import { AdminDashboard } from './components/admin/AdminDashboard';
+import { ToastNotificationContainer } from './components/common/ToastNotification';
 import { useAppStore } from './lib/store';
 import { ProductItem, ServiceItem, PortfolioProject, BlogPost } from './types';
 
@@ -60,7 +61,6 @@ export default function App() {
 
   const handleAddToCartWithDrawer = (item: any) => {
     addToCart(item);
-    setIsCartOpen(true);
   };
 
   // Render main route content
@@ -343,6 +343,11 @@ export default function App() {
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         onProceedToCheckout={() => navigateTo('/checkout')}
+        onNavigate={navigateTo}
+      />
+
+      <ToastNotificationContainer
+        onOpenCart={() => setIsCartOpen(true)}
         onNavigate={navigateTo}
       />
     </div>

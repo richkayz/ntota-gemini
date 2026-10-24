@@ -98,9 +98,34 @@ export interface CartItem {
   notes?: string;
 }
 
+export interface ToastNotification {
+  id: string;
+  type: 'success' | 'info' | 'warning' | 'error';
+  title: string;
+  message?: string;
+  item?: {
+    id?: string;
+    title: string;
+    quantity?: number;
+    priceUGX?: number;
+    priceUSD?: number;
+    imageUrl?: string;
+    type?: 'product' | 'service';
+    category?: string;
+  };
+  duration?: number;
+  actionLabel?: string;
+  onAction?: () => void;
+}
+
 export type OrderStatus = 'pending' | 'processing' | 'fulfilled' | 'cancelled' | 'refunded';
 export type PaymentStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled' | 'refunded' | 'partially_refunded';
-export type PaymentMethod = 'pesapal_card' | 'pesapal_mobile_money' | 'manual_mobile_money' | 'manual_bank_wire';
+export type PaymentMethod = 
+  | 'pesapal_card' 
+  | 'pesapal_mobile_money' 
+  | 'manual_mobile_money' 
+  | 'manual_bank_wire'
+  | 'pay_later';
 
 export interface OrderItem {
   id: string;
@@ -141,10 +166,13 @@ export interface Order {
   updated_at: string;
 }
 
+export type InvoiceStatus = 'paid' | 'pay_later' | 'unpaid' | 'partially_paid' | 'pending' | 'cancelled' | 'draft';
+export type InvoiceStamp = 'PAID' | 'PAY_LATER' | 'PARTIALLY_PAID' | 'UNPAID';
+
 export interface Invoice {
   id: string;
   invoiceNumber: string; // e.g. INV-2026-001
-  orderId: string;
+  orderId?: string;
   orderReference: string;
   customerName: string;
   customerEmail: string;
@@ -165,7 +193,12 @@ export interface Invoice {
   total: number;
   amountPaid: number;
   balanceDue: number;
-  status: 'draft' | 'unpaid' | 'paid' | 'partially_paid' | 'cancelled';
+  status: InvoiceStatus;
+  stamp?: InvoiceStamp;
+  paymentTerms?: string;
+  paidAt?: string;
+  verifiedBy?: string;
+  paymentReference?: string;
   notes?: string;
   created_at: string;
 }

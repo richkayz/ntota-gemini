@@ -90,7 +90,9 @@ export const PaymentStatus: React.FC<PaymentStatusProps> = ({ orderReference, on
     );
   }
 
-  const isPaid = order.paymentStatus === 'completed';
+  const isPaid = order.paymentStatus === 'completed' || invoice?.status === 'paid' || invoice?.stamp === 'PAID';
+  const isPayLater = !isPaid && (order.paymentMethod === 'pay_later' || invoice?.status === 'pay_later' || invoice?.stamp === 'PAY_LATER' || order.paymentStatus === 'pending');
+  const isPartiallyPaid = !isPaid && (invoice?.status === 'partially_paid' || invoice?.stamp === 'PARTIALLY_PAID');
 
   const copyOrderRef = () => {
     navigator.clipboard.writeText(order.orderReference);
@@ -112,8 +114,12 @@ export const PaymentStatus: React.FC<PaymentStatusProps> = ({ orderReference, on
               <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
-            ) : (
+            ) : isPayLater ? (
               <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                <Clock className="w-6 h-6" />
+              </div>
+            ) : (
+              <div className="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center shrink-0">
                 <Clock className="w-6 h-6" />
               </div>
             )}
@@ -121,19 +127,21 @@ export const PaymentStatus: React.FC<PaymentStatusProps> = ({ orderReference, on
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-lg font-bold text-slate-900 font-heading">
-                  {isPaid ? 'Payment Confirmed & Verified' : 'Order Awaiting Verification'}
+                  {isPaid ? 'Payment Confirmed & Verified' : isPayLater ? 'Pay Later Order Recorded' : 'Order Awaiting Verification'}
                 </h1>
                 <span
                   className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
                     isPaid ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-800'
                   }`}
                 >
-                  {isPaid ? 'PAID' : 'PENDING'}
+                  {isPaid ? 'PAID' : isPayLater ? 'PAY LATER' : 'PENDING'}
                 </span>
               </div>
               <p className="text-xs text-slate-500 mt-0.5">
                 {isPaid
                   ? 'Your transaction has been verified independently. Service onboarding and dispatch have begun.'
+                  : isPayLater
+                  ? 'Your order is confirmed under Pay Later terms. An official stamped invoice is ready for your records.'
                   : 'Your order is recorded in the Nyota One system. Awaiting final clearance from the finance desk.'}
               </p>
             </div>
@@ -161,8 +169,47 @@ export const PaymentStatus: React.FC<PaymentStatusProps> = ({ orderReference, on
         {/* Professional Printable Navy-and-Gold A4 Invoice Container */}
         <div
           id="invoice-document"
-          className="bg-white rounded-2xl border border-slate-300 p-8 sm:p-12 shadow-md space-y-8 print:border-none print:shadow-none print:p-0"
+          className="relative overflow-hidden bg-white rounded-2xl border border-slate-300 p-8 sm:p-12 shadow-md space-y-8 print:border-none print:shadow-none print:p-0"
         >
+          {/* Authentic Visual Rubber Stamps */}
+          {isPaid && (
+            <div className="absolute right-6 sm:right-16 top-32 pointer-events-none select-none rotate-[-12deg] z-20">
+              <div className="border-4 border-emerald-600 rounded-xl px-5 py-2 text-center text-emerald-600 font-mono font-black tracking-widest uppercase bg-white/90 backdrop-blur-xs shadow-md">
+                <div className="text-3xl sm:text-4xl font-extrabold tracking-wider leading-none">PAID</div>
+                <div className="text-[9px] font-sans font-bold border-t-2 border-emerald-600 mt-1.5 pt-1 tracking-normal">
+                  OFFICIAL RECEIPT · VERIFIED
+                </div>
+                <div className="text-[8px] font-sans font-medium text-emerald-700 tracking-tight">
+                  {invoice?.paidAt?.split('T')[0] || order.verifiedAt?.split('T')[0] || new Date().toISOString().split('T')[0]} · {invoice?.verifiedBy || order.verifiedBy || 'FINANCE DESK'}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {isPayLater && !isPaid && (
+            <div className="absolute right-6 sm:right-16 top-32 pointer-events-none select-none rotate-[-10deg] z-20">
+              <div className="border-4 border-amber-600 rounded-xl px-5 py-2 text-center text-amber-700 font-mono font-black tracking-widest uppercase bg-white/90 backdrop-blur-xs shadow-md">
+                <div className="text-3xl sm:text-4xl font-extrabold tracking-wider leading-none">PAY LATER</div>
+                <div className="text-[9px] font-sans font-bold border-t-2 border-amber-600 mt-1.5 pt-1 tracking-normal">
+                  PAYMENT PENDING · DUE: {invoice?.dueDate || '7 DAYS'}
+                </div>
+                <div className="text-[8px] font-sans font-medium text-amber-800 tracking-tight">
+                  TERMS: {invoice?.paymentTerms || 'NET 7 DAYS'}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {isPartiallyPaid && (
+            <div className="absolute right-6 sm:right-16 top-32 pointer-events-none select-none rotate-[-10deg] z-20">
+              <div className="border-4 border-blue-600 rounded-xl px-5 py-2 text-center text-blue-700 font-mono font-black tracking-widest uppercase bg-white/90 backdrop-blur-xs shadow-md">
+                <div className="text-2xl sm:text-3xl font-extrabold tracking-wider leading-none">PARTIAL PAID</div>
+                <div className="text-[9px] font-sans font-bold border-t-2 border-blue-600 mt-1.5 pt-1 tracking-normal">
+                  BALANCE: {formatMoney(invoice?.balanceDue || 0, order.currency)}
+                </div>
+              </div>
+            </div>
+          )}
           {/* Invoice Header */}
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6 border-b border-slate-200 pb-8">
             <div className="space-y-2">

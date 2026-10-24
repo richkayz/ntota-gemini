@@ -1029,6 +1029,11 @@ export const INITIAL_INVOICES: Invoice[] = [
     amountPaid: 600000,
     balanceDue: 0,
     status: 'paid',
+    stamp: 'PAID',
+    paymentTerms: 'Immediate Online Settlement (PesaPal 3.0)',
+    paidAt: '2026-02-15T10:14:00Z',
+    verifiedBy: 'PesaPal IPN Webhook System',
+    paymentReference: 'PESA-UG-882194',
     notes: 'Thank you for choosing Nyota One. Service onboarding is actively in progress.',
     created_at: '2026-02-15T10:14:00Z'
   },
@@ -1064,7 +1069,10 @@ export const INITIAL_INVOICES: Invoice[] = [
     total: 1315000,
     amountPaid: 0,
     balanceDue: 1315000,
-    status: 'unpaid',
+    status: 'pay_later',
+    stamp: 'PAY_LATER',
+    paymentTerms: 'Pay Later — Net 3 Days (Pending Mobile Money Clearance)',
+    paymentReference: 'MM-TXN-UG-99812',
     notes: 'Awaiting finance verification of submitted Mobile Money transaction reference.',
     created_at: '2026-03-01T15:20:00Z'
   }
