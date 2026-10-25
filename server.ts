@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import dns from 'dns';
 import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
+import { db, testDatabaseConnection } from './src/server/db';
 
 dotenv.config();
 
