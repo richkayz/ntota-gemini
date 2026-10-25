@@ -218,3 +218,29 @@ CREATE TABLE IF NOT EXISTS audit_logs (
     INDEX idx_audit_created (created_at),
     CONSTRAINT fk_audit_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS services (
+    id VARCHAR(100) PRIMARY KEY,
+    slug VARCHAR(255) NOT NULL UNIQUE,
+    title VARCHAR(255) NOT NULL,
+    category ENUM('web','email','pos','growth','consultation','custom') NOT NULL,
+    short_description TEXT NOT NULL,
+    full_description LONGTEXT NOT NULL,
+    problem_solved TEXT NOT NULL,
+    deliverables JSON NOT NULL,
+    scope JSON NOT NULL,
+    exclusions JSON NOT NULL,
+    price_ugx DECIMAL(15,2) NOT NULL DEFAULT 0,
+    price_usd DECIMAL(12,2) NOT NULL DEFAULT 0,
+    is_starting_price BOOLEAN NOT NULL DEFAULT FALSE,
+    timeline_estimate VARCHAR(255) NOT NULL,
+    required_info JSON NOT NULL,
+    is_quotation_based BOOLEAN NOT NULL DEFAULT FALSE,
+    faqs JSON NULL,
+    featured BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_services_category (category),
+    INDEX idx_services_featured (featured)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
